@@ -9,22 +9,38 @@ const App = () => {
   const APP_KEY = "aec5be3e0528eb278bb1ef06f8604883";
 
   const [recipes, setRecipes] = useState([]);
+  const [search, setSearch] = useState("");
+  const [query, setQuery] = useState("");
 
-  const exampleRequest = `https://api.edamam.com/search?q=chicken&app_id=${APP_ID}&app_key=${APP_KEY}`;
+  const exampleRequest = `https://api.edamam.com/search?q=${query}&app_id=${APP_ID}&app_key=${APP_KEY}`;
 
+  //fetch recipies only when you click on the search button
   useEffect(() => {
     fetchRecipes();
-  }, []);
+  }, [query]);
 
+  //fetching data
   const fetchRecipes = async () => {
     const { data } = await axios.get(exampleRequest);
     setRecipes(data.hits);
   };
 
+  const updateSearch = (event) => setSearch(event.target.value);
+
+  const getSearch = (event) => {
+    event.preventDefault();
+    setQuery(search);
+    setSearch("");
+  };
   return (
     <div className="App">
-      <form className="search-form">
-        <input className="search-bar" type="text" />
+      <form onSubmit={getSearch} className="search-form">
+        <input
+          className="search-bar"
+          type="text"
+          value={search}
+          onChange={updateSearch}
+        />
         <button className="search-button" type="submit">
           Search
         </button>
@@ -35,6 +51,7 @@ const App = () => {
           title={recipe.recipe.label}
           calories={recipe.recipe.calories}
           image={recipe.recipe.image}
+          ingredients={recipe.recipe.ingredients}
         />
       ))}
     </div>
