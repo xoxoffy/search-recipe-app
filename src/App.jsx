@@ -25,6 +25,8 @@ const App = () => {
     setRecipes(data.hits);
   };
 
+  //TODO: If the user enters a recipe that wasn't found - display "Recipe not found"
+
   const updateSearch = (event) => setSearch(event.target.value);
 
   const getSearch = (event) => {
@@ -45,15 +47,17 @@ const App = () => {
           Search
         </button>
       </form>
-      {recipes.map((recipe) => (
-        <Recipe
-          key={recipe.recipe.label}
-          title={recipe.recipe.label}
-          calories={recipe.recipe.calories}
-          image={recipe.recipe.image}
-          ingredients={recipe.recipe.ingredients}
-        />
-      ))}
+      <div className="recipies">
+        {recipes.map((recipe) => (
+          <Recipe
+            key={recipe.recipe.label}
+            title={recipe.recipe.label}
+            calories={recipe.recipe.calories}
+            image={recipe.recipe.image}
+            ingredients={recipe.recipe.ingredients}
+          />
+        ))}
+      </div>
     </div>
   );
 };
